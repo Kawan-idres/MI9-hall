@@ -97,9 +97,9 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 0.5px solid rgba(201, 168, 76, 0.15);
   display: flex;
   align-items: center;
-  justifyContent: space-between;
+  justify-content: space-between;
   padding: 0 40px;
-  zIndex: 1000;
+  z-index: 1000;
 }
 
 .nav-menu {
@@ -122,11 +122,31 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .nav-bar {
-    padding: 0 16px !important;
+    height: 60px !important;
+    padding: 0 12px !important;
+  }
+
+  .logo-text {
+    font-size: 20px !important;
+  }
+
+  .logo-sub {
+    display: none !important;
   }
 
   .nav-menu {
-    gap: 16px !important;
+    gap: 12px !important;
+  }
+
+  .nav-menu span {
+    font-size: 10px !important;
+    letter-spacing: 1px !important;
+  }
+
+  .nav-bar button {
+    padding: 6px 12px !important;
+    font-size: 9px !important;
+    letter-spacing: 1px !important;
   }
 
   .map-wrapper {

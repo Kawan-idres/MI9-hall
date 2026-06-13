@@ -13,7 +13,7 @@ export default function Nav({ onHome, onContact, onReserve }) {
           userSelect: 'none'
         }}
       >
-        <span style={{
+        <span className="logo-text" style={{
           fontFamily: "'Cormorant Garamond', serif",
           fontSize: '28px',
           fontWeight: 600,
@@ -21,7 +21,7 @@ export default function Nav({ onHome, onContact, onReserve }) {
           letterSpacing: '2px',
           lineHeight: '1'
         }}>MI9</span>
-        <span style={{
+        <span className="logo-sub" style={{
           fontSize: '9px',
           letterSpacing: '3px',
           color: '#8a7f85',
