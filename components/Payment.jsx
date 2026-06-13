@@ -81,7 +81,7 @@ export default function Payment({ reservation, onConfirm, onBack }) {
   )
 
   return (
-    <div style={{ minHeight: '100vh', padding: '100px 40px 60px', background: '#080608' }}>
+    <div className="page-container">
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
         {/* Step indicator */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 48, justifyContent: 'center' }}>
@@ -103,7 +103,7 @@ export default function Payment({ reservation, onConfirm, onBack }) {
           ))}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 24 }}>
+        <div className="payment-layout-grid">
           {/* Left — forms */}
           <div>
             {step === 2 && (

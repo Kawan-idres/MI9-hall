@@ -24,7 +24,7 @@ export default function Contact() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', padding: '120px 40px 80px', background: '#080608' }}>
+    <div className="page-container">
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 60 }}>
@@ -35,7 +35,7 @@ export default function Contact() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '48px' }}>
+        <div className="contact-layout-grid">
           {/* Contact Form */}
           <div style={{ background: '#0f0c10', border: '0.5px solid rgba(201,168,76,0.12)', borderRadius: '8px', padding: '32px' }}>
             {submitted ? (

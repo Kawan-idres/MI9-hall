@@ -82,6 +82,7 @@ h1, h2, h3, h4, h5, h6 {
   background: #0f0c10;
   aspect-ratio: 4/3;
   width: 100%;
+  container-type: inline-size; /* Enable container query width units (cqw) */
 }
 
 /* Responsive navbar */
@@ -101,6 +102,12 @@ h1, h2, h3, h4, h5, h6 {
   zIndex: 1000;
 }
 
+.nav-menu {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
 /* Mobile responsive queries */
 @media (max-width: 768px) {
   .main-layout-grid,
@@ -118,8 +125,13 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0 16px !important;
   }
 
+  .nav-menu {
+    gap: 16px !important;
+  }
+
   .map-wrapper {
-    min-width: 600px; /* Prevent shrinking below 600px on mobile; allows horizontal swipe to view map */
+    /* Let the map scale down naturally with no horizontal scroll */
+    min-width: auto !important; 
   }
 
   h2 {

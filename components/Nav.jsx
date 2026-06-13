@@ -31,7 +31,7 @@ export default function Nav({ onHome, onContact, onReserve }) {
       </div>
 
       {/* Nav Menu */}
-      <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+      <div className="nav-menu">
         {['Home', 'Contact'].map((item) => (
           <span 
             key={item}

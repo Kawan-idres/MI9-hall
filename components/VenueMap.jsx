@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 // MI9 Hall layout: stage top-center, front tables, upper terrace (back elevated area), 2 entrances
 const ZONE_DEFS = {
@@ -66,9 +66,18 @@ const ALL_TABLES = buildTables()
 export default function VenueMap({ onBook }) {
   const [selected, setSelected] = useState(null)
   const [filter, setFilter] = useState('all')
+  const detailsRef = useRef(null)
 
   const table = ALL_TABLES.find(t => t.id === selected)
   const visible = ALL_TABLES.filter(t => filter === 'all' || t.zone === filter)
+
+  useEffect(() => {
+    if (selected && window.innerWidth <= 768) {
+      setTimeout(() => {
+        detailsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 100)
+    }
+  }, [selected])
 
   function tableColor(t) {
     if (t.id === selected) return STATUS_COLORS.selected
@@ -77,7 +86,7 @@ export default function VenueMap({ onBook }) {
   }
 
   return (
-    <div style={{ minHeight: '100vh', padding: '100px 40px 60px', background: '#080608' }}>
+    <div className="page-container">
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 48 }}>
         <p style={{ fontSize: 11, letterSpacing: 4, textTransform: 'uppercase', color: '#C9A84C', marginBottom: 12 }}>Interactive Floor Plan</p>
@@ -86,7 +95,7 @@ export default function VenueMap({ onBook }) {
       </div>
 
       {/* Zone filter */}
-      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 32 }}>
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 32, flexWrap: 'wrap' }}>
         {[['all', 'All Zones'], ...Object.entries(ZONE_DEFS).filter(([k]) => k !== 'stage').map(([k, v]) => [k, v.label])].map(([key, label]) => (
           <button key={key} onClick={() => setFilter(key)} style={{
             padding: '8px 20px', borderRadius: 2, fontSize: 11, letterSpacing: 2,
@@ -98,13 +107,10 @@ export default function VenueMap({ onBook }) {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24, maxWidth: 1200, margin: '0 auto' }}>
+      <div className="main-layout-grid" style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* MAP */}
-        <div style={{
-          position: 'relative', background: '#0f0c10',
-          border: '0.5px solid rgba(201,168,76,0.15)', borderRadius: 8,
-          overflow: 'hidden', aspectRatio: '4/3'
-        }}>
+        <div className="map-outer-container">
+          <div className="map-wrapper">
           {/* Ceiling lights decorative */}
           {/* <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '20%', pointerEvents: 'none', zIndex: 1 }}
             viewBox="0 0 900 120" preserveAspectRatio="none">
@@ -122,19 +128,15 @@ export default function VenueMap({ onBook }) {
           {/* Entrance labels - Left and Right Center */}
           <div style={{
             position: 'absolute', top: '50%', left: '1%', transform: 'translate(-50%, -50%) rotate(-90deg)',
-            background: 'rgba(52,211,153,0.12)', borderBottom: '2.5px solid rgba(52,211,153,0.4)',
-            padding: '4px 16px', borderRadius: '4px 4px 0 0', fontSize: 10, letterSpacing: 3,
-            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)',
-            fontSize:12
-            
+            background: 'rgba(52,211,153,0.12)', borderBottom: '0.3cqw solid rgba(52,211,153,0.4)',
+            padding: '0.6cqw 2cqw', borderRadius: '0.5cqw 0.5cqw 0 0', fontSize: '1.6cqw', letterSpacing: '0.3cqw',
+            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)'
           }}>Entrance A</div>
           <div style={{
             position: 'absolute', top: '50%', right: '1%', transform: 'translate(50%, -50%) rotate(90deg)',
-            background: 'rgba(52,211,153,0.12)', borderBottom: '2.5px solid rgba(52,211,153,0.4)',
-            padding: '4px 16px', borderRadius: '4px 4px 0 0', fontSize: 10, letterSpacing: 3,
-            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)',
-            fontSize:12
-      
+            background: 'rgba(52,211,153,0.12)', borderBottom: '0.3cqw solid rgba(52,211,153,0.4)',
+            padding: '0.6cqw 2cqw', borderRadius: '0.5cqw 0.5cqw 0 0', fontSize: '1.6cqw', letterSpacing: '0.3cqw',
+            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)'
           }}>Entrance B</div>
 
           {/* STAGE */}
@@ -142,15 +144,15 @@ export default function VenueMap({ onBook }) {
             position: 'absolute', top: '2%', left: '50%', width: '50%', height: '16%',
             transform: 'translate(-50%, 0%)',
             background: 'linear-gradient(180deg, rgba(201,168,76,0.15) 0%, rgba(139,79,190,0.2) 100%)',
-            border: '0.5px solid rgba(201,168,76,0.4)', borderRadius: 4, zIndex: 2,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 4
+            border: '0.1cqw solid rgba(201,168,76,0.4)', borderRadius: '0.5cqw', zIndex: 2,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '0.6cqw'
           }}>
-            <span style={{ fontSize: 10, letterSpacing: 4, textTransform: 'uppercase', color: '#C9A84C', opacity: 0.9 }}>Stage / DJ Booth</span>
+            <span style={{ fontSize: '1.6cqw', letterSpacing: '0.6cqw', textTransform: 'uppercase', color: '#C9A84C', opacity: 0.9 }}>Stage / DJ Booth</span>
             {/* LED curtain hints */}
-            <div style={{ display: 'flex', gap: 3 }}>
+            <div style={{ display: 'flex', gap: '0.4cqw' }}>
               {Array.from({length: 20}).map((_, i) => (
                 <div key={i} style={{
-                  width: 2, height: 10, background: '#C9A84C',
+                  width: '0.3cqw', height: '1.5cqw', background: '#C9A84C',
                   opacity: 0.3 + Math.random() * 0.5,
                   animation: `shimmer ${1 + Math.random()}s ease-in-out infinite`
                 }}/>
@@ -161,24 +163,26 @@ export default function VenueMap({ onBook }) {
           {/* VIP zone label */}
           <div style={{
             position: 'absolute', top: '23%', left: '1%',
-            border: '2px solid #8B4FBE',
-            padding: '4px 8px',
-            boxShadow: '0 0 10px #8B4FBE',
-            fontSize: 15, letterSpacing: 3, textTransform: 'uppercase', color: '#8B4FBE', zIndex: 1, opacity: 0.7
+            border: '0.3cqw solid #8B4FBE',
+            padding: '0.6cqw 1.2cqw',
+            boxShadow: '0 0 1.5cqw #8B4FBE',
+            borderRadius: '0.5cqw',
+            fontSize: '2.2cqw', letterSpacing: '0.5cqw', textTransform: 'uppercase', color: '#8B4FBE', zIndex: 1, opacity: 0.7
           }}>VIP Front</div>
 
           {/* Upper terrace elevated indicator */}
           <div style={{
             position: 'absolute', top: '78%', left: '3%', right: '3%', height: '18%',
             background: 'rgba(192,53,122,0.05)',
-            border: '0.5px dashed rgba(192,53,122,0.3)', borderRadius: 4, zIndex: 1
+            border: '0.15cqw dashed rgba(192,53,122,0.3)', borderRadius: '0.5cqw', zIndex: 1
           }}>
             <span style={{
               position: 'absolute', left: 0, top: '10%', transform: 'translateY(-50%)',
-              boxShadow: '0 0 10px #C0357A',
-              border: '2px solid #C0357A',
-              padding: '4px 8px',
-              fontSize: 9, letterSpacing: 3, textTransform: 'uppercase', color: '#C0357A', opacity: 0.7
+              boxShadow: '0 0 1.5cqw #C0357A',
+              border: '0.3cqw solid #C0357A',
+              padding: '0.6cqw 1.2cqw',
+              borderRadius: '0.5cqw',
+              fontSize: '1.5cqw', letterSpacing: '0.5cqw', textTransform: 'uppercase', color: '#C0357A', opacity: 0.7
             }}>Upper Terrace ↑</span>
           </div>
 
@@ -196,22 +200,23 @@ export default function VenueMap({ onBook }) {
                   position: 'absolute',
                   left: `${t.x}%`, top: `${t.y}%`,
                   transform: `translate(-50%, -50%) ${t.angle ? `rotate(${t.angle}deg)` : ''}`,
-                  width: t.zone === 'vip' ? 36 : t.zone === 'terrace' ? 32 : 28,
-                  height: t.zone === 'vip' ? 14 : 12,
+                  width: t.zone === 'vip' ? '5.5cqw' : t.zone === 'terrace' ? '5cqw' : '4.5cqw',
+                  height: t.zone === 'vip' ? '2.2cqw' : '1.8cqw',
                   background: t.reserved ? 'rgba(239,68,68,0.15)' : isSelected ? 'rgba(245,158,11,0.2)' : `${color}18`,
-                  border: `1px solid ${color}`,
-                  borderRadius: 2,
+                  border: `0.15cqw solid ${color}`,
+                  borderRadius: '0.3cqw',
                   cursor: t.reserved ? 'not-allowed' : 'pointer',
                   opacity: isFiltered ? 0.15 : 1,
                   zIndex: isSelected ? 5 : 2,
                   transition: 'all 0.15s',
-                  outline: isSelected ? `2px solid ${color}` : 'none',
-                  outlineOffset: 2,
-                  boxShadow: isSelected ? `0 0 12px ${color}55` : 'none'
+                  outline: isSelected ? `0.3cqw solid ${color}` : 'none',
+                  outlineOffset: '0.3cqw',
+                  boxShadow: isSelected ? `0 0 2cqw ${color}` : 'none'
                 }}
               />
             )
           })}
+          </div>
         </div>
 
         {/* SIDEBAR */}
@@ -244,7 +249,7 @@ export default function VenueMap({ onBook }) {
 
           {/* Table detail card */}
           {table ? (
-            <div style={{
+            <div ref={detailsRef} style={{
               background: '#0f0c10', border: `0.5px solid ${ZONE_DEFS[table.zone].color}44`,
               borderRadius: 8, padding: '20px', animation: 'fadeUp 0.2s ease'
             }}>
