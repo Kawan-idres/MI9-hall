@@ -106,7 +106,7 @@ export default function VenueMap({ onBook }) {
           overflow: 'hidden', aspectRatio: '4/3'
         }}>
           {/* Ceiling lights decorative */}
-          <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '20%', pointerEvents: 'none', zIndex: 1 }}
+          {/* <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '20%', pointerEvents: 'none', zIndex: 1 }}
             viewBox="0 0 900 120" preserveAspectRatio="none">
             <g stroke="#C9A84C" strokeWidth="0.5" opacity="0.35" fill="none">
               <line x1="0" y1="8" x2="900" y2="8"/>
@@ -117,25 +117,30 @@ export default function VenueMap({ onBook }) {
               <polygon points="720,10 760,2 800,10 800,50 760,58 720,50" strokeWidth="1" opacity="0.6"/>
               <polygon points="740,12 770,4 800,12 800,44 770,52 740,44" strokeWidth="0.5" opacity="0.3"/>
             </g>
-          </svg>
+          </svg> */}
 
           {/* Entrance labels - Left and Right Center */}
           <div style={{
             position: 'absolute', top: '50%', left: '1%', transform: 'translate(-50%, -50%) rotate(-90deg)',
             background: 'rgba(52,211,153,0.12)', borderBottom: '2.5px solid rgba(52,211,153,0.4)',
             padding: '4px 16px', borderRadius: '4px 4px 0 0', fontSize: 10, letterSpacing: 3,
-            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)'
+            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)',
+            fontSize:12
+            
           }}>Entrance A</div>
           <div style={{
             position: 'absolute', top: '50%', right: '1%', transform: 'translate(50%, -50%) rotate(90deg)',
             background: 'rgba(52,211,153,0.12)', borderBottom: '2.5px solid rgba(52,211,153,0.4)',
             padding: '4px 16px', borderRadius: '4px 4px 0 0', fontSize: 10, letterSpacing: 3,
-            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)'
+            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)',
+            fontSize:12
+      
           }}>Entrance B</div>
 
           {/* STAGE */}
           <div style={{
-            position: 'absolute', top: '5%', left: '10%', width: '80%', height: '16%',
+            position: 'absolute', top: '2%', left: '50%', width: '50%', height: '16%',
+            transform: 'translate(-50%, 0%)',
             background: 'linear-gradient(180deg, rgba(201,168,76,0.15) 0%, rgba(139,79,190,0.2) 100%)',
             border: '0.5px solid rgba(201,168,76,0.4)', borderRadius: 4, zIndex: 2,
             display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 4
@@ -155,8 +160,11 @@ export default function VenueMap({ onBook }) {
 
           {/* VIP zone label */}
           <div style={{
-            position: 'absolute', top: '23%', left: '3%',
-            fontSize: 9, letterSpacing: 3, textTransform: 'uppercase', color: '#8B4FBE', zIndex: 1, opacity: 0.7
+            position: 'absolute', top: '23%', left: '1%',
+            border: '2px solid #8B4FBE',
+            padding: '4px 8px',
+            boxShadow: '0 0 10px #8B4FBE',
+            fontSize: 15, letterSpacing: 3, textTransform: 'uppercase', color: '#8B4FBE', zIndex: 1, opacity: 0.7
           }}>VIP Front</div>
 
           {/* Upper terrace elevated indicator */}
@@ -166,7 +174,10 @@ export default function VenueMap({ onBook }) {
             border: '0.5px dashed rgba(192,53,122,0.3)', borderRadius: 4, zIndex: 1
           }}>
             <span style={{
-              position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)',
+              position: 'absolute', left: 0, top: '10%', transform: 'translateY(-50%)',
+              boxShadow: '0 0 10px #C0357A',
+              border: '2px solid #C0357A',
+              padding: '4px 8px',
               fontSize: 9, letterSpacing: 3, textTransform: 'uppercase', color: '#C0357A', opacity: 0.7
             }}>Upper Terrace ↑</span>
           </div>

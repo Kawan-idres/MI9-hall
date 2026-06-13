@@ -46,10 +46,10 @@ export default function Nav({ onHome }) {
 
       {/* Nav Menu */}
       <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-        {['Home', 'Floor Plan', 'Experience', 'Contact'].map((item) => (
+        {['Home', 'Contact'].map((item) => (
           <span 
             key={item}
-            onClick={item === 'Home' || item === 'Floor Plan' ? onHome : undefined}
+            onClick={item === 'Home' ? onHome : undefined}
             style={{
               fontSize: '11px',
               letterSpacing: '2px',
@@ -58,7 +58,7 @@ export default function Nav({ onHome }) {
               cursor: 'pointer',
               transition: 'color 0.2s',
             }}
-            onMouseEnter={e => e.currentTarget.style.color = '#C9A84C'}
+            onMouseEnter={e => e.currentTarget.style.color = '#C9A84C'} 
             onMouseLeave={e => e.currentTarget.style.color = '#8a7f85'}
           >
             {item}
