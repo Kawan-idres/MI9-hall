@@ -75,14 +75,13 @@ export default function Confirmation({ reservation, onHome }) {
             ))}
           </div>
 
-          {/* Bottom strip */}
           <div style={{
             padding: '16px 28px',
             borderTop: '0.5px dashed rgba(201,168,76,0.15)',
             background: 'rgba(201,168,76,0.04)',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center'
           }}>
-            <p style={{ fontSize: 11, color: '#8a7f85' }}>Confirmation sent to {form?.email || 'your email'}</p>
+            <p style={{ fontSize: 11, color: '#8a7f85' }}>Confirmation sent to {form?.phone || 'your phone'}</p>
             <span style={{ fontSize: 10, letterSpacing: 2, color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.3)', padding: '3px 8px', borderRadius: 2 }}>CONFIRMED</span>
           </div>
         </div>

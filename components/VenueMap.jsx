@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState } from 'react'
 
 // MI9 Hall layout: stage top-center, front tables, upper terrace (back elevated area), 2 entrances
 const ZONE_DEFS = {
@@ -8,18 +8,42 @@ const ZONE_DEFS = {
   terrace: { label: 'Upper Terrace', color: '#C0357A', bg: 'rgba(192,53,122,0.12)', border: '#C0357A' },
 }
 
-// Tables: { id, zone, row, num, x%, y%, capacity, price, reserved }
+// Status Colors
+const STATUS_COLORS = {
+  available: '#22c55e',
+  reserved: '#ef4444',
+  selected: '#f59e0b',
+}
+
+// Tables: { id, zone, row, num, x%, y%, capacity, price, reserved, angle }
 function buildTables() {
   const tables = []
-  // VIP front row — 2 rows of 5 long tables close to stage
-  const vipRow1y = 38, vipRow2y = 47
-  const vipXs = [12, 25, 38, 51, 64, 77]
-  vipXs.forEach((x, i) => {
-    tables.push({ id: `V${i+1}`, zone: 'vip', x, y: vipRow1y, capacity: 6, price: 350, reserved: [1,3].includes(i) })
+  const stageX = 50, stageY = 10
+  
+  // VIP front row — circular layout around the stage (center: 50%, 10%)
+  const r1 = 28
+  const angles = [35, 57, 79, 101, 123, 145]
+  angles.forEach((deg, i) => {
+    const rad = (deg * Math.PI) / 180
+    const x = stageX + r1 * Math.cos(rad)
+    const y = stageY + r1 * Math.sin(rad)
+    tables.push({ id: `V${i+1}`, zone: 'vip', x, y, capacity: 6, price: 350, reserved: [1,3].includes(i), angle: deg - 90 })
   })
-  vipXs.forEach((x, i) => {
-    tables.push({ id: `V${i+7}`, zone: 'vip', x, y: vipRow2y, capacity: 6, price: 350, reserved: [0,4].includes(i) })
+
+  // Row 2 (behind Row 1)
+  const r2 = 38
+  angles.forEach((deg, i) => {
+    const rad = (deg * Math.PI) / 180
+    const x = stageX + r2 * Math.cos(rad)
+    const y = stageY + r2 * Math.sin(rad)
+    tables.push({ id: `V${i+7}`, zone: 'vip', x, y, price: 350, reserved: [0,4].includes(i), angle: deg - 90 })
   })
+
+  // Set default capacity
+  tables.forEach(t => {
+    if (t.zone === 'vip') t.capacity = 6
+  })
+
   // Main floor — 3 rows of 6 tables
   const mainXs = [9, 22, 36, 50, 63, 76, 88]
   ;[58, 66, 74].forEach((y, ri) => {
@@ -42,16 +66,14 @@ const ALL_TABLES = buildTables()
 export default function VenueMap({ onBook }) {
   const [selected, setSelected] = useState(null)
   const [filter, setFilter] = useState('all')
-  const [hoveredZone, setHoveredZone] = useState(null)
 
   const table = ALL_TABLES.find(t => t.id === selected)
-
   const visible = ALL_TABLES.filter(t => filter === 'all' || t.zone === filter)
 
   function tableColor(t) {
-    if (t.id === selected) return '#f59e0b'
-    if (t.reserved) return '#ef4444'
-    return ZONE_DEFS[t.zone].color
+    if (t.id === selected) return STATUS_COLORS.selected
+    if (t.reserved) return STATUS_COLORS.reserved
+    return STATUS_COLORS.available
   }
 
   return (
@@ -60,7 +82,7 @@ export default function VenueMap({ onBook }) {
       <div style={{ textAlign: 'center', marginBottom: 48 }}>
         <p style={{ fontSize: 11, letterSpacing: 4, textTransform: 'uppercase', color: '#C9A84C', marginBottom: 12 }}>Interactive Floor Plan</p>
         <h2 style={{ fontSize: 48, marginBottom: 16 }}>Choose Your Table</h2>
-        <p style={{ color: '#8a7f85', fontSize: 14 }}>Select a table to view details. Rotate the 3D map or browse by zone.</p>
+        <p style={{ color: '#8a7f85', fontSize: 14 }}>Select a table to view details. Browse by zone or filter options.</p>
       </div>
 
       {/* Zone filter */}
@@ -97,18 +119,18 @@ export default function VenueMap({ onBook }) {
             </g>
           </svg>
 
-          {/* Entrance labels */}
+          {/* Entrance labels - Left and Right Center */}
           <div style={{
-            position: 'absolute', bottom: '4%', left: '15%',
-            background: 'rgba(52,211,153,0.12)', border: '0.5px solid rgba(52,211,153,0.4)',
-            padding: '4px 12px', borderRadius: 2, fontSize: 10, letterSpacing: 2,
-            textTransform: 'uppercase', color: '#34d399', zIndex: 3
+            position: 'absolute', top: '50%', left: '1%', transform: 'translate(-50%, -50%) rotate(-90deg)',
+            background: 'rgba(52,211,153,0.12)', borderBottom: '2.5px solid rgba(52,211,153,0.4)',
+            padding: '4px 16px', borderRadius: '4px 4px 0 0', fontSize: 10, letterSpacing: 3,
+            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)'
           }}>Entrance A</div>
           <div style={{
-            position: 'absolute', bottom: '4%', right: '15%',
-            background: 'rgba(52,211,153,0.12)', border: '0.5px solid rgba(52,211,153,0.4)',
-            padding: '4px 12px', borderRadius: 2, fontSize: 10, letterSpacing: 2,
-            textTransform: 'uppercase', color: '#34d399', zIndex: 3
+            position: 'absolute', top: '50%', right: '1%', transform: 'translate(50%, -50%) rotate(90deg)',
+            background: 'rgba(52,211,153,0.12)', borderBottom: '2.5px solid rgba(52,211,153,0.4)',
+            padding: '4px 16px', borderRadius: '4px 4px 0 0', fontSize: 10, letterSpacing: 3,
+            textTransform: 'uppercase', color: '#34d399', zIndex: 3, backdropFilter: 'blur(2px)'
           }}>Entrance B</div>
 
           {/* STAGE */}
@@ -162,7 +184,7 @@ export default function VenueMap({ onBook }) {
                 style={{
                   position: 'absolute',
                   left: `${t.x}%`, top: `${t.y}%`,
-                  transform: 'translate(-50%, -50%)',
+                  transform: `translate(-50%, -50%) ${t.angle ? `rotate(${t.angle}deg)` : ''}`,
                   width: t.zone === 'vip' ? 36 : t.zone === 'terrace' ? 32 : 28,
                   height: t.zone === 'vip' ? 14 : 12,
                   background: t.reserved ? 'rgba(239,68,68,0.15)' : isSelected ? 'rgba(245,158,11,0.2)' : `${color}18`,
@@ -212,7 +234,7 @@ export default function VenueMap({ onBook }) {
           {/* Table detail card */}
           {table ? (
             <div style={{
-              background: '#0f0c10', border: `0.5px solid ${ZONE_DEFS[table.zone].border}44`,
+              background: '#0f0c10', border: `0.5px solid ${ZONE_DEFS[table.zone].color}44`,
               borderRadius: 8, padding: '20px', animation: 'fadeUp 0.2s ease'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
