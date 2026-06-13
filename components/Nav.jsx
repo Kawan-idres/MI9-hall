@@ -1,22 +1,8 @@
 import React from 'react'
 
-export default function Nav({ onHome }) {
+export default function Nav({ onHome, onContact, onReserve }) {
   return (
-    <nav style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      height: '80px',
-      background: 'rgba(8, 6, 8, 0.85)',
-      backdropFilter: 'blur(12px)',
-      borderBottom: '0.5px solid rgba(201, 168, 76, 0.15)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '0 40px',
-      zIndex: 1000
-    }}>
+    <nav className="nav-bar">
       {/* Brand logo */}
       <div 
         onClick={onHome}
@@ -49,7 +35,7 @@ export default function Nav({ onHome }) {
         {['Home', 'Contact'].map((item) => (
           <span 
             key={item}
-            onClick={item === 'Home' ? onHome : undefined}
+            onClick={item === 'Home' ? onHome : onContact}
             style={{
               fontSize: '11px',
               letterSpacing: '2px',
@@ -68,7 +54,7 @@ export default function Nav({ onHome }) {
 
       {/* Action Button */}
       <button 
-        onClick={onHome}
+        onClick={onReserve}
         style={{
           background: 'transparent',
           border: '0.5px solid #C9A84C',

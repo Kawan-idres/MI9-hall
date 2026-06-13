@@ -38,3 +38,92 @@ h1, h2, h3, h4, h5, h6 {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 0.8; }
 }
+
+/* Responsive Layout Utilities */
+.page-container {
+  min-height: 100vh;
+  padding: 100px 40px 60px;
+  background: #080608;
+}
+
+.main-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  width: 100%;
+}
+
+.payment-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  width: 100%;
+}
+
+.contact-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 48px;
+  width: 100%;
+}
+
+/* Map responsiveness */
+.map-outer-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 0.5px solid rgba(201,168,76,0.15);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  background: #0f0c10;
+}
+
+.map-wrapper {
+  position: relative;
+  background: #0f0c10;
+  aspect-ratio: 4/3;
+  width: 100%;
+}
+
+/* Responsive navbar */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: rgba(8, 6, 8, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid rgba(201, 168, 76, 0.15);
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  padding: 0 40px;
+  zIndex: 1000;
+}
+
+/* Mobile responsive queries */
+@media (max-width: 768px) {
+  .main-layout-grid,
+  .payment-layout-grid,
+  .contact-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .page-container {
+    padding: 100px 16px 40px !important;
+  }
+
+  .nav-bar {
+    padding: 0 16px !important;
+  }
+
+  .map-wrapper {
+    min-width: 600px; /* Prevent shrinking below 600px on mobile; allows horizontal swipe to view map */
+  }
+
+  h2 {
+    font-size: 32px !important;
+  }
+}
+
